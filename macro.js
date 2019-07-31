@@ -1,6 +1,7 @@
 //모듈
 const puppeteer = require('puppeteer')
 const fs = require('fs')
+const os = require('os')
 
 //정보
 const {email, pw, nickName, repositoryName} = JSON.parse(fs.readFileSync('./setting.json', 'utf8'))
@@ -54,7 +55,9 @@ async function startPuppeteer() {
   }
 
   //이슈 파일에서 이슈 내용 가져오기
-  const issues = fs.readFileSync('./issues', 'utf8').split('\r\n')
+  const osType = os.type().toUpperCase()
+  const line   = osType.includes('WINDOW') ? '\r\n' : osType.includes('LINUX') ? '\n' : '\r'
+  const issues = fs.readFileSync('./issues', 'utf8').split(line)
 
   for (let e of issues) {
     await page.goto(issueURI)
