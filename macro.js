@@ -55,9 +55,7 @@ async function startPuppeteer() {
   }
 
   //이슈 파일에서 이슈 내용 가져오기
-  const osType = os.type().toUpperCase()
-  const line   = osType.includes('WINDOW') ? '\r\n' : osType.includes('LINUX') ? '\n' : '\r'
-  const issues = fs.readFileSync('./issues', 'utf8').split(line)
+  const issues = fs.readFileSync('./issues', 'utf8').split(os.EOL)
 
   for (let e of issues) {
     await page.goto(issueURI)
